@@ -5,35 +5,12 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    /*public float offset;
     public GameObject bullet;
+    public float offset;
     public Transform shotPoint;
     private float timeBtwShots;
     public float startTimeBtwShots;
-    void Update()
-    {
-        if (PlayerMovement.check_rotation_right == true) offset = 0;
-        if (PlayerMovement.check_rotation_right == false) offset = 180;
-        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rotZ + offset);
-
-        if (timeBtwShots <= 0)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                Instantiate(bullet, shotPoint.position, transform.rotation);
-                timeBtwShots = startTimeBtwShots;
-            }
-        }
-        else
-        {
-            timeBtwShots -= Time.deltaTime;
-        }
-    }*/
-    public GameObject bullet;
-    public float offset;
-
+    public int bullets_summ;
 
     void Update()
     {
@@ -43,11 +20,21 @@ public class Gun : MonoBehaviour
         float rotateZ = Mathf.Atan2(diference.y, diference.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rotateZ + offset);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (bullets_summ > 0)
         {
-            Instantiate(bullet, transform.position, Quaternion.identity);
+            if (timeBtwShots <= 0)
+            {
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    Instantiate(bullet, shotPoint.position, Quaternion.identity);
+                    timeBtwShots = startTimeBtwShots;
+                }
+            
+            }
+            else
+            {
+                timeBtwShots -= Time.deltaTime;
+            }
         }
-
-
     }
 }

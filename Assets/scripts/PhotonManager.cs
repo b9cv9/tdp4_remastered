@@ -11,6 +11,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [SerializeField] Listitem itemPrefab;
     [SerializeField] Transform content;
 
+
+    List<RoomInfo> allRoomsInfo = new List<RoomInfo>();
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -59,11 +61,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         foreach(RoomInfo info in roomList)
         {
+            for(int i = 0; i < allRoomsInfo.Count; i ++)
+            {
+                if (allRoomsInfo[i].masterClientId == info.masterClientId)
+                {
+                    return;
+                }
+            }
             Listitem listitem = Instantiate(itemPrefab, content);
             if (listitem != null)
             {
                 listitem.SetInfo(info);
+                allRoomsInfo.Add(info);
             }
+            
         }
     }
 

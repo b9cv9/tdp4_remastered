@@ -20,7 +20,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Вы подключены к: " + PhotonNetwork.CloudRegion);
-        PhotonNetwork.JoinLobby();
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.JoinLobby();
+        }
+        
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -66,5 +70,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel("game_scene");
+    }
+
+    public void JoinRandRoomButton()
+    {
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public void JoinButton()
+    {
+        PhotonNetwork.JoinRoom(RoomName.text);
+    }
+
+    public void LeaveButton()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel("MainMenu");
     }
 }
